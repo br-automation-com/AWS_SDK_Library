@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio Version=4.2.7.54 SP?>
+<Library Version="4.26.1" xmlns="http://br-automation.co.at/AS/Library">
+  <Objects>
+    <Object Type="File">AWS_SDK.fun</Object>
+    <Object Type="Package">ar</Object>
+    <Object Type="File">jsmn.h</Object>
+    <Object Type="File">aws_iot_error.h</Object>
+    <Object Type="File">aws_iot_json_utils.h</Object>
+    <Object Type="File">aws_iot_log.h</Object>
+    <Object Type="File">aws_iot_version.h</Object>
+    <Object Type="File">aws_iot_shadow_actions.h</Object>
+    <Object Type="File">aws_iot_shadow_interface.h</Object>
+    <Object Type="File">aws_iot_shadow_json.h</Object>
+    <Object Type="File">aws_iot_shadow_json_data.h</Object>
+    <Object Type="File">aws_iot_shadow_key.h</Object>
+    <Object Type="File">aws_iot_shadow_records.h</Object>
+    <Object Type="File">aws_iot_mqtt_interface.h</Object>
+    <Object Type="File">network_interface.h</Object>
+    <Object Type="File">timer_interface.h</Object>
+    <Object Type="File">MQTTClient.h</Object>
+    <Object Type="File">MQTTConnect.h</Object>
+    <Object Type="File">MQTTMessage.h</Object>
+    <Object Type="File">MQTTPacket.h</Object>
+    <Object Type="File">MQTTPublish.h</Object>
+    <Object Type="File">MQTTReturnCodes.h</Object>
+    <Object Type="File">MQTTSubscribe.h</Object>
+    <Object Type="File">MQTTUnsubscribe.h</Object>
+    <Object Type="File">StackTrace.h</Object>
+    <Object Type="File">aws_iot_config.h</Object>
+  </Objects>
+  <Dependencies>
+    <Dependency ObjectName="AsIecCon" />
+    <Dependency ObjectName="astime" />
+    <Dependency ObjectName="AsHW" />
+    <Dependency ObjectName="AsHost" />
+    <Dependency ObjectName="AsETH" />
+    <Dependency ObjectName="sys_lib" />
+    <Dependency ObjectName="FileIO" />
+    <Dependency ObjectName="ArEventLog" />
+  </Dependencies>
+</Library>

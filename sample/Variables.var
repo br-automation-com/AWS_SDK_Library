@@ -1,0 +1,4 @@
+VAR
+	AWS_SDK_Cyclic_0 : AWS_SDK_Cyclic := (0);
+	AWS_SDK_Init_0 : AWS_SDK_Init := (0);
+END_VAR
