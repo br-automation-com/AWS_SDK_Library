@@ -1,6 +1,19 @@
 # AWS_SDK_Library
 Amazon Web Services Library for B&amp;R SG4 targets
 
+## Version Information
+This is a compiled library for B&R SG4 Targets using
+[https://github.com/aws/aws-iot-device-sdk-embedded-C](https://github.com/aws/aws-iot-device-sdk-embedded-C), Release of version 1.1.2
+
+Versions / AR Support:
+
+- V4.26.x: Automation Runtime 4.26 
+
+It has been tested on following hardware / runtime:
+
+ - CP1586 / D4.26
+
+
 ## Prerequisites
 
 To get started with Amazon Webservices, please visit https://aws.amazon.com/iot-platform/getting-started/
