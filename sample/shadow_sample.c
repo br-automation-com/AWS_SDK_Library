@@ -159,69 +159,77 @@ void sample(unsigned long param) {
 
 	INFO("Shadow Init");
 	rc = aws_iot_shadow_init(&mqttClient);
-
-	INFO("Shadow Connect");
-	rc = aws_iot_shadow_connect(&mqttClient, &sp);
-
-	if (NONE_ERROR != rc) {
-		ERROR("Shadow Connection Error %d", rc);
-	}
-	/*
-	 * Enable Auto Reconnect functionality. Minimum and Maximum time of Exponential backoff are set in aws_iot_config.h
-	 *  #AWS_IOT_MQTT_MIN_RECONNECT_WAIT_INTERVAL
-	 *  #AWS_IOT_MQTT_MAX_RECONNECT_WAIT_INTERVAL
-	 */
-	rc = mqttClient.setAutoReconnectStatus(true);
-	if (NONE_ERROR != rc) {
-		ERROR("Unable to set Auto Reconnect to true - %d", rc);
-		return;
-	}
-
-	rc = aws_iot_shadow_register_delta(&mqttClient, &windowActuator);
-
-	if (NONE_ERROR != rc) {
-		ERROR("Shadow Register Delta Error");
-	}
-	temperature = STARTING_ROOMTEMPERATURE;
-
-	// loop and publish a change in temperature
-	while (AWS_SDK_IsAlive() && (NETWORK_ATTEMPTING_RECONNECT == rc || RECONNECT_SUCCESSFUL == rc || NONE_ERROR == rc)) {
-		rc = aws_iot_shadow_yield(&mqttClient, 200);
-		if (NETWORK_ATTEMPTING_RECONNECT == rc) {
-			AWS_SDK_Sleep(200);
-			// If the client is attempting to reconnect we will skip the rest of the loop.
-			continue;
+	
+	do
+	{
+		AWS_SDK_Sleep(5000);
+		
+		INFO("Shadow Connect");
+		rc = aws_iot_shadow_connect(&mqttClient, &sp);
+	
+		if (NONE_ERROR != rc) {
+			ERROR("Shadow Connection Error %d", rc);
 		}
-		INFO("\n===========================\n");
-		INFO("On Device: window state %s", windowOpen?"true":"false");
-		simulateRoomTemperature(&temperature);
-
-		rc = aws_iot_shadow_init_json_document(JsonDocumentBuffer, sizeOfJsonDocumentBuffer);
-		if (rc == NONE_ERROR) {
-			rc = aws_iot_shadow_add_reported(JsonDocumentBuffer, sizeOfJsonDocumentBuffer, 2, &temperatureHandler,
-					&windowActuator);
-			if (rc == NONE_ERROR) {
-				rc = aws_iot_finalize_json_document(JsonDocumentBuffer, sizeOfJsonDocumentBuffer);
-				if (rc == NONE_ERROR) {
-					INFO("Update Shadow: %s", JsonDocumentBuffer);
-					rc = aws_iot_shadow_update(&mqttClient, AWS_IOT_MY_THING_NAME, JsonDocumentBuffer,
-							ShadowUpdateStatusCallback, NULL, 4, true);
+		else
+		{
+			/*
+			 * Enable Auto Reconnect functionality. Minimum and Maximum time of Exponential backoff are set in aws_iot_config.h
+			 *  #AWS_IOT_MQTT_MIN_RECONNECT_WAIT_INTERVAL
+			 *  #AWS_IOT_MQTT_MAX_RECONNECT_WAIT_INTERVAL
+			 */
+			rc = mqttClient.setAutoReconnectStatus(true);
+			if (NONE_ERROR != rc) {
+				ERROR("Unable to set Auto Reconnect to true - %d", rc);
+			}
+		
+			rc = aws_iot_shadow_register_delta(&mqttClient, &windowActuator);
+		
+			if (NONE_ERROR != rc) {
+				ERROR("Shadow Register Delta Error");
+			}
+			temperature = STARTING_ROOMTEMPERATURE;
+		
+			// loop and publish a change in temperature
+			while (AWS_SDK_IsAlive() && (NETWORK_ATTEMPTING_RECONNECT == rc || RECONNECT_SUCCESSFUL == rc || NONE_ERROR == rc)) {
+				rc = aws_iot_shadow_yield(&mqttClient, 200);
+				if (NETWORK_ATTEMPTING_RECONNECT == rc) {
+					AWS_SDK_Sleep(200);
+					// If the client is attempting to reconnect we will skip the rest of the loop.
+					continue;
 				}
+				INFO("\n===========================\n");
+				INFO("On Device: window state %s", windowOpen?"true":"false");
+				simulateRoomTemperature(&temperature);
+		
+				rc = aws_iot_shadow_init_json_document(JsonDocumentBuffer, sizeOfJsonDocumentBuffer);
+				if (rc == NONE_ERROR) {
+					rc = aws_iot_shadow_add_reported(JsonDocumentBuffer, sizeOfJsonDocumentBuffer, 2, &temperatureHandler,
+							&windowActuator);
+					if (rc == NONE_ERROR) {
+						rc = aws_iot_finalize_json_document(JsonDocumentBuffer, sizeOfJsonDocumentBuffer);
+						if (rc == NONE_ERROR) {
+							INFO("Update Shadow: %s", JsonDocumentBuffer);
+							rc = aws_iot_shadow_update(&mqttClient, AWS_IOT_MY_THING_NAME, JsonDocumentBuffer,
+									ShadowUpdateStatusCallback, NULL, 4, true);
+						}
+					}
+				}
+				INFO("*******************************\n");
+				AWS_SDK_Sleep(200);
+			}
+		
+			if (NONE_ERROR != rc) {
+				ERROR("An error occurred in the loop %d", rc);
 			}
 		}
-		INFO("*******************************\n");
-		AWS_SDK_Sleep(200);
-	}
-
-	if (NONE_ERROR != rc) {
-		ERROR("An error occurred in the loop %d", rc);
-	}
-
-	INFO("Disconnecting");
-	rc = aws_iot_shadow_disconnect(&mqttClient);
-
-	if (NONE_ERROR != rc) {
-		ERROR("Disconnect error %d", rc);
-	}
-
+		
+		INFO("Disconnecting");
+		rc = aws_iot_shadow_disconnect(&mqttClient);
+	
+		if (NONE_ERROR != rc) {
+			ERROR("Disconnect error %d", rc);
+		}
+		
+	}while(AWS_SDK_IsAlive());
+	
 }
