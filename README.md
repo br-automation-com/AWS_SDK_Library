@@ -5,7 +5,9 @@ Amazon Web Services Library for B&amp;R SG4 targets
 This is a compiled library for B&R SG4 Targets using
 [https://github.com/aws/aws-iot-device-sdk-embedded-C](https://github.com/aws/aws-iot-device-sdk-embedded-C), Release of version 1.1.2
 
-All revisions of a certain version will have the format X.XX.0 in Automation Studio, as revision numbers cannot be part of the version number.
+This library is updated via a revision number, whereas the version number follows the Automation runtime version that it is compatible with. All revisions for a certain version will have the format X.XX.0 in Automation Studio, as revision numbers cannot be part of the version number.
+
+The revision number (defined in <ar/logger.h> can be seen as the first entry in the logger.
 
 Versions / AR Support:
 
