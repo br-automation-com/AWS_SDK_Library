@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.2.7.54 SP?>
-<Library Version="4.26.1" xmlns="http://br-automation.co.at/AS/Library">
+<?AutomationStudio Version=4.2.10.53 SP?>
+<Library Version="4.26.0" xmlns="http://br-automation.co.at/AS/Library">
   <Objects>
     <Object Type="File">AWS_SDK.fun</Object>
     <Object Type="Package">ar</Object>

@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* AWS_SDK 4.26.1 */
+/* AWS_SDK 4.26.0 */
 
 #ifndef _AWS_SDK_
 #define _AWS_SDK_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _AWS_SDK_VERSION
-#define _AWS_SDK_VERSION 4.26.1
+#define _AWS_SDK_VERSION 4.26.0
 #endif
 
 #include <bur/plctypes.h>

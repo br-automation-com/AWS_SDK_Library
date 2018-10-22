@@ -32,8 +32,6 @@
 #include <stdlib.h>
 #include <ar/logger.h>
 
-
-
 /**
  * @brief Debug level logging macro.
  *
@@ -73,6 +71,7 @@
 #define ERROR(...)  \
     { \
     	ArAwsConsoleLoggerLog(LOG_ERROR, __FILE__ ,__PRETTY_FUNCTION__, __LINE__, LOG_LINE, __VA_ARGS__);\
+		ArAwsLogSSLErrors();\
     }
 
 #endif // _IOT_LOG_H

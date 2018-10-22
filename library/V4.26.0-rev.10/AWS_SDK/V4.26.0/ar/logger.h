@@ -17,6 +17,8 @@ typedef enum
 
 #define LOG_LINE	10
 
+#define AR_AWS_SDK_VERSION "AWS_SDK version 4.26.0-rev.10"
+
 /*Public API*/
 void ArAwsLoggerResetError();
 char ArAwsLoggerGetError();
@@ -29,6 +31,7 @@ void ArAwsLogInfo(const char *format, ...);
 void ArAwsLogSuccess(const char *format, ...);
 
 /*used by AWS_IOT_LOG*/
+void ArAwsLogSSLErrors();
 void ArAwsConsoleLoggerLog(LOG_CATEGORY log_category, const char* file, const char* func, const int line, unsigned int options, const char* format, ...);
 void ArAwsSetLogLevel(unsigned char level);
 
