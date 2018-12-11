@@ -12,8 +12,12 @@ The revision number (defined in <ar/logger.h> can be seen as the first entry in 
 Versions / AR Support:
 
 - V4.26.0-rev.10: Automation Runtime 4.26
-	- Updated logging functionality including SSL errors in the AWS_LOG. This version also fixes the problem with errors mistakenly (without there being a problem) popping up in the system logger. 
-
+	- Updated logging functionality including SSL errors in the AWS_LOG. This version also fixes the problem with errors mistakenly (without there being a problem) popping up in the system logger.
+ 
+- V4.26.0-rev.11: Automation Runtime 4.26
+	- Added Reset functionality in order to connect to another thing during runtime
+	- Added a check that no more than one instance of a task (`AWS_SDK_Init`, `AWS_SDK_Cyclic`) can be used for parallel connections (its not supported) 
+ 
 It has been tested on following hardware / runtime:
 
  - CP1586 / D4.26
@@ -123,3 +127,65 @@ When you have come this far, you should see the result in the Logger.
 
 The updates are also reflected on your AWS Management platform.
 ![](img/thing.PNG)
+
+### Resetting the Connection
+
+With Revision 11, theres a new function to reset or change your connection to another thing. You do this with `AWS_SDK_IsReset()` in your MainThread and `AWS_SDK_Cyclic_0.Reset` in the _CYCLIC program.
+
+It is important to mention, that `AWS_SDK_IsAlive()` will go low until `AWS_SDK_IsReset()` is called, to fall out of the inner loops. That means, if you do not call the `AWS_SDK_IsReset()` at the end of the loop, and you make an `AWS_SDK_Cyclic_0.Reset`, the client will simply disconnect and fall out of the mainthread. 
+
+The sample program in this repository already has this additional `do{ ... }while(AWS_SDK_IsReset());`  in the code, but heres where to put it
+
+**shadow_sample.c:**
+
+	void sample(unsigned long param) {
+		do { // here! ...
+	
+			IoT_Error_t rc = NONE_ERROR;
+	
+			...
+	
+				INFO("Disconnecting");
+				rc = aws_iot_shadow_disconnect(&mqttClient);
+			
+				if (NONE_ERROR != rc) {
+					ERROR("Disconnect error %d", rc);
+				}
+				
+			}while(AWS_SDK_IsAlive());
+		
+		}while(AWS_SDK_IsReset()); // ... and here!
+	}
+
+In your cyclic program, you can then use a command to change the connection, for example:
+
+**main.c:**
+
+	if(cmdReset)
+	{
+		cmdReset = 0;
+		AWS_SDK_Cyclic_0.Reset = 1;
+
+		//toggle between two things:
+		if(strcmp(AWS_SDK_Init_0.MyThingName, "SampleThing") == 0)
+		{
+			strcpy(AWS_SDK_Init_0.Host, "xxxx.amazonaws.com");
+			strcpy(AWS_SDK_Init_0.RootCAFileName, "AmazonRootCA1.pem");
+			strcpy(AWS_SDK_Init_0.MyThingName, "OtherThing");
+			strcpy(AWS_SDK_Init_0.CertificateFileName, "other-certificate.pem.crt");
+			strcpy(AWS_SDK_Init_0.PrivateKeyFileName, "other-private.pem.key");
+		}
+		else
+		{
+			strcpy(AWS_SDK_Init_0.Host, "yyyy.amazonaws.com");
+			strcpy(AWS_SDK_Init_0.RootCAFileName, "aws-iot-rootCA.crt");
+			strcpy(AWS_SDK_Init_0.MyThingName, "SampleThing");
+			strcpy(AWS_SDK_Init_0.CertificateFileName, "SampleThing.cert.pem");
+			strcpy(AWS_SDK_Init_0.PrivateKeyFileName, "SampleThing.private.key");
+		}
+	}
+	else
+		AWS_SDK_Cyclic_0.Reset = 0;
+
+
+
