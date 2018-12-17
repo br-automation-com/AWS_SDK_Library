@@ -18,9 +18,16 @@ Versions / AR Support:
 	- Added Reset functionality in order to connect to another thing during runtime
 	- Added a check that no more than one instance of a task (`AWS_SDK_Init`, `AWS_SDK_Cyclic`) can be used for parallel connections (its not supported) 
  
+- V4.34.0-rev.11: Automation Runtime 4.34
+	- Added Reset functionality in order to connect to another thing during runtime
+	- Added a check that no more than one instance of a task (`AWS_SDK_Init`, `AWS_SDK_Cyclic`) can be used for parallel connections (its not supported)
+	- Support for ARM Targets (Compact S) 
+	
 It has been tested on following hardware / runtime:
 
  - CP1586 / D4.26
+ - CP1586 / J4.34
+ - CP0484 / J4.34
 
 
 ## Prerequisites
