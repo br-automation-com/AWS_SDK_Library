@@ -11,17 +11,24 @@ The revision number (defined in <ar/logger.h> can be seen as the first entry in 
 
 Versions / AR Support:
 
-- V4.26.0-rev.10: Automation Runtime 4.26
-	- Updated logging functionality including SSL errors in the AWS_LOG. This version also fixes the problem with errors mistakenly (without there being a problem) popping up in the system logger.
- 
-- V4.26.0-rev.11: Automation Runtime 4.26
-	- Added Reset functionality in order to connect to another thing during runtime
-	- Added a check that no more than one instance of a task (`AWS_SDK_Init`, `AWS_SDK_Cyclic`) can be used for parallel connections (its not supported) 
+
+- V4.34.0-rev.12: Automation Runtime 4.34
+	- exported `FillWithClientToken`, `isJsonValidAndParse`, `isJsonKeyMatchingAndUpdateValue`, `isReceivedJsonValid`, `extractClientToken` and `extractVersionNumber`
+	- support for dynamic linking added
  
 - V4.34.0-rev.11: Automation Runtime 4.34
 	- Added Reset functionality in order to connect to another thing during runtime
 	- Added a check that no more than one instance of a task (`AWS_SDK_Init`, `AWS_SDK_Cyclic`) can be used for parallel connections (its not supported)
-	- Support for ARM Targets (Compact S) 
+	- Support for ARM Targets (Compact S)  
+
+- V4.26.0-rev.11: Automation Runtime 4.26
+	- Added Reset functionality in order to connect to another thing during runtime
+	- Added a check that no more than one instance of a task (`AWS_SDK_Init`, `AWS_SDK_Cyclic`) can be used for parallel connections (its not supported)
+ 
+- V4.26.0-rev.10: Automation Runtime 4.26
+	- Updated logging functionality including SSL errors in the AWS_LOG. This version also fixes the problem with errors mistakenly (without there being a problem) popping up in the system logger.
+ 
+
 	
 It has been tested on following hardware / runtime:
 
