@@ -11,6 +11,9 @@ The revision number (defined in <ar/logger.h> can be seen as the first entry in 
 
 Versions / AR Support:
 
+- V4.34.0-rev.14: Automation Runtime 4.34
+	- Increased message sizes:
+	`MAX_SHADOW_TOPIC_LENGTH_WITHOUT_THINGNAME 128`, `MAX_SIZE_OF_THING_NAME 128`, `MAX_JSON_TOKEN_EXPECTED 8192`
 - V4.34.0-rev.13: Automation Runtime 4.34
 	- Increased Rx and Tx buffer size to 16k:
 	`AWS_IOT_MQTT_TX_BUF_LEN 16384`, `AWS_IOT_MQTT_RX_BUF_LEN 16384`
